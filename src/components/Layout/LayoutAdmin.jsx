@@ -12,7 +12,7 @@ import {
 import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import {useState} from 'react';
 import PrimaryHeader from 'components/Header/PrimaryHeader';
-// import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const {Content, Footer, Sider} = Layout;
 function getItem(label, key, icon, children) {
@@ -35,7 +35,7 @@ const items = [
 export const LayoutAdmin = ({title, children}) => {
   const [collapsed, setCollapsed] = useState(false);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     token: {colorBgContainer},
@@ -56,15 +56,20 @@ export const LayoutAdmin = ({title, children}) => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical"></div>
+
         <Menu
           theme="dark"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['/']}
           mode="inline"
           items={items}
-          // onClick={({key}) => navigate(key)}
-        >
-          {/* {console.log(items)} */}
-        </Menu>
+          onClick={(item) => {
+            navigate(item.key);
+          }}
+          // onSelect={(item) => {
+          //   console.log('itemSelected key', item.key);
+          //   navigate(item.key);
+          // }}
+        ></Menu>
       </Sider>
       <Layout>
         {/* Header */}

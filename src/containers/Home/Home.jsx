@@ -1,12 +1,7 @@
 import React from 'react';
-import {LayoutAdmin} from 'components/Layout/LayoutAdmin';
 
 const Home = () => {
-  return (
-    <div>
-      <LayoutAdmin>This is HomePage</LayoutAdmin>
-    </div>
-  );
+  return <div>This is HomePage</div>;
 };
 
 export default Home;
