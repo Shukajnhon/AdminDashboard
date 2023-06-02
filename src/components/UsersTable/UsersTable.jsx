@@ -39,6 +39,18 @@ const UsersTable = () => {
 
   // const [dataTable, setDataTable] = useState(userLists);
 
+  // Modal Edit user
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const showEditModal = () => {
+    setIsEditOpen(true);
+  };
+  const handleEditOk = () => {
+    setIsEditOpen(false);
+  };
+  const handleEditCancel = () => {
+    setIsEditOpen(false);
+  };
+  //Modal Add User
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -66,33 +78,46 @@ const UsersTable = () => {
     ];
     //add user
     dispatch.users.setUserList(newUser);
-    // const newValues = {
-    //   name: values.name,
-    //   age: values.age,
-    //   key: uuidv4(),
-    //   address: values.address,
-    //   tags: ['cool', 'teacher'],
-    // };
-    // setDataTable((prevItem) => {
-    //   return [...prevItem, newValues];
-    // });
-    // reset form
     const form = document.querySelector('#validateOnly');
     form.reset();
   };
 
   // Delete user
   const onDelete = (record) => {
-    console.log(record);
-
     const itemId = record.id;
     console.log('itemId', itemId);
     const newUserList = userLists.filter((item) => item.id !== itemId);
     dispatch.users.setUserList(newUserList);
   };
 
+  // handleUpdateUser
+  const handleUpdateUser = (values) => {
+    console.log('values', values);
+    const itemId = values.editForm_id;
+    const items = userLists.find((item) => {
+      return item.id === itemId;
+    });
+    // chua xong
+    console.log('items', items);
+    console.log('itemId', itemId);
+  };
+
+  // fill user data on edit form
+  const onFill = (record) => {
+    form.setFieldsValue({
+      editForm_name: record.name,
+      editForm_email: record.email,
+      editForm_address: record.address.city,
+      editForm_id: record.id,
+    });
+  };
+
   // Edit user
   const onEdit = (record) => {
+    console.log('record', record);
+
+    showEditModal();
+    onFill(record);
     console.log('edited');
   };
 
@@ -101,6 +126,7 @@ const UsersTable = () => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
       render: (text) => <a href="">{text}</a>,
     },
     {
@@ -139,6 +165,7 @@ const UsersTable = () => {
         Add User
       </Button>
 
+      {/* export excel */}
       <Excel
         fileName="export-user"
         data={[
@@ -189,6 +216,7 @@ const UsersTable = () => {
         <Button>Export users</Button>
       </Excel>
 
+      {/* model add user */}
       <Modal
         title="Add New User"
         open={isModalOpen}
@@ -244,6 +272,78 @@ const UsersTable = () => {
               {/* <SubmitButton form={form} /> */}
               <Button type="primary" htmlType="submit">
                 Add User
+              </Button>
+              <Button htmlType="reset">Reset</Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* model edit user */}
+      <Modal
+        title="Edit User"
+        open={isEditOpen}
+        onOk={handleEditOk}
+        onCancel={handleEditCancel}
+        footer={null}
+      >
+        <Form
+          form={form}
+          name="validateOnly"
+          layout="vertical"
+          autoComplete="off"
+          onFinish={handleUpdateUser}
+        >
+          {/* name */}
+          <Form.Item
+            name="editForm_name"
+            label="Name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+              value=""
+            />
+          </Form.Item>
+          {/* email */}
+          <Form.Item
+            name="editForm_email"
+            label="Email"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input value="" />
+          </Form.Item>
+          {/* Address */}
+          <Form.Item
+            name="editForm_address"
+            label="Address"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input value="" />
+          </Form.Item>
+          {/* Id */}
+          <Form.Item style={{display: 'none'}} name="editForm_id">
+            <Input className="idEditForm"></Input>
+          </Form.Item>
+          <Form.Item>
+            <Space>
+              {/* <SubmitButton form={form} /> */}
+              <Button type="primary" htmlType="submit">
+                Save
               </Button>
               <Button htmlType="reset">Reset</Button>
             </Space>

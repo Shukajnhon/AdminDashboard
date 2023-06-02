@@ -9,7 +9,7 @@ import {
   TeamOutlined,
   GiftOutlined,
 } from '@ant-design/icons';
-import {Breadcrumb, Layout, Menu, theme} from 'antd';
+import {Breadcrumb, Layout, Menu} from 'antd';
 import {useState} from 'react';
 import PrimaryHeader from 'components/Header/PrimaryHeader';
 import {useNavigate} from 'react-router-dom';
@@ -37,9 +37,9 @@ export const LayoutAdmin = ({title, children}) => {
 
   const navigate = useNavigate();
 
-  const {
-    token: {colorBgContainer},
-  } = theme.useToken();
+  // const {
+  //   token: {colorBgContainer},
+  // } = theme.useToken();
   return (
     <Layout
       style={{
@@ -88,10 +88,9 @@ export const LayoutAdmin = ({title, children}) => {
             <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
           </Breadcrumb>
           <div
+            className="content-right"
             style={{
-              padding: 24,
               minHeight: 360,
-              background: colorBgContainer,
             }}
           >
             {children}

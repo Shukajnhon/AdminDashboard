@@ -1,7 +1,12 @@
 import React from 'react';
+import LineChart from 'components/LineChart';
 
 const Home = () => {
-  return <div>This is HomePage</div>;
+  return (
+    <div className="Home">
+      <LineChart></LineChart>
+    </div>
+  );
 };
 
 export default Home;
